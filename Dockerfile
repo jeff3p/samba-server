@@ -1,9 +1,10 @@
-FROM registry.opensuse.org/opensuse/tumbleweed:latest
+FROM debian:bookworm-slim
 
-RUN zypper --non-interactive refresh \
-    && zypper --non-interactive install --no-recommends \
-       nfs-ganesha nfs-ganesha-vfs \
-    && zypper clean --all \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       nfs-ganesha \
+       nfs-ganesha-vfs \
+    && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /export /etc/ganesha /var/lib/nfs /run/ganesha
 
 USER 0
